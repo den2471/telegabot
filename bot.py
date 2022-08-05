@@ -18,6 +18,8 @@ exp_buff = 6
 # percent_debuff_per_lvl = 4
 # exp_buff = 3
 
+chat_link = 'https://t.me/+HhG9tCb5RKk2NTcy'
+
 start_time = time.time()
 bot = telebot.TeleBot(token_.token)
 bot.set_my_commands([
@@ -290,7 +292,10 @@ def get_text_messages(message):
 
     text = message.text
     if text in mapp:
-        mapp[text](message)
+        if message.chat != -1001458417910:
+            bot.send_message(message.chat.id, 'Бот написан эксклюзивно для [Белой Комнаты]({})'.format(chat_link), parse_mode='Markdown')
+        else:
+            mapp[text](message)
 
 
 bot.polling(none_stop=True, interval=0)
