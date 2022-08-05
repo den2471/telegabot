@@ -99,23 +99,22 @@ def callback_query(call):
     bot.send_message(bot.last_message_sent[0], rating_str, disable_notification=True)
 
 def fuck(message):
-    print('fuck_func')
     read = json.load(open('Files/data_file.json', 'r', encoding='utf8'))
     user_id = str(message.from_user.id)
     try:
         reply_id = str(message.reply_to_message.from_user.id)
     except:
         bot.reply_to(message, 'Перешли сообщение того чью мать хочешь выебать')
-        print('non_reply')
+
         return
 
     if user_id == reply_id:
         bot.send_animation(message.chat.id, open('Files/realshit.gif', 'rb'), reply_to_message_id=message.id)
-        print('self_reply')
+
         return
     elif message.reply_to_message.from_user.username == 'DickDestroyerBot':
         bot.reply_to(message, 'У меня нет матери')
-        print('bot_reply')
+
         return
     else:
         pass
@@ -145,7 +144,7 @@ def fuck(message):
             else:
                 time_diff = str(int(time_diff)) + ' сек.'
             bot.reply_to(message, 'Не переоценивай себя. Ещё чуть больше {}'.format(time_diff))
-            print('atk_cd')
+
             return
 
         last_get = defence['last_get']
@@ -157,7 +156,7 @@ def fuck(message):
             else:
                 time_diff = str(int(time_diff)) + ' сек.'
             bot.reply_to(message, 'Дай мамаше отдохнуть. Ещё чуть больше {}'.format(time_diff))
-            print('def_cd')
+
             return
 
     if random.randint(1, 100) < 2:
@@ -165,7 +164,7 @@ def fuck(message):
         attack['last_take'] = time.time()
         copy('Files/data_file.json', 'Files/data_file_copy.json')
         json.dump(read, open('Files/data_file.json', 'w', encoding='utf8'), ensure_ascii=False)
-        print('trap_event')
+
         return
 
     # chance count
@@ -219,7 +218,6 @@ def fuck(message):
             defence['lvl'] = defence['exp'] // 150 + 1
             bot.send_message(message.chat.id, '{} ты достиг уровня {}! \nСледующий уровень {}/{} XP'.format(defence['name'] + '](tg://user?id=' + reply_id + ')', defence['lvl'], defence['exp'], 150 * int(defence['lvl'])), parse_mode='Markdown')
 
-    print('fuck_func_end')
     read[user_id] = attack
     read[reply_id] = defence
     copy('Files/data_file.json', 'Files/data_file_copy.json')
@@ -263,7 +261,6 @@ def rating(message):
     bot.last_message_sent = msg.chat.id, msg.message_id
 
 def cd(message):
-    print('cd_func')
     user_id = str(message.from_user.id)
     read = json.load(open('Files/data_file.json', 'r', encoding='utf8'))
     try:
