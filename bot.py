@@ -292,7 +292,7 @@ def get_text_messages(message):
 
     text = message.text
     if text in mapp:
-        if message.chat != -1001458417910:
+        if message.chat.id != -1001458417910:
             bot.send_message(message.chat.id, 'Бот написан эксклюзивно для [Белой Комнаты]({})'.format(chat_link), parse_mode='Markdown')
         else:
             mapp[text](message)
