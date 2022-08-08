@@ -215,7 +215,7 @@ def lvl(message):
     else:
         if message.reply_to_message.from_user.username == 'DickDestroyerBot':
             bot.reply_to(message, 'У меня нет матери')
-        return
+            return
         attack = user_check(base, message)
         defence = user_check(base, message.reply_to_message)
         lvl_difference = attack['lvl'] - defence['lvl']
