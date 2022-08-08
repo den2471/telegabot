@@ -213,6 +213,9 @@ def lvl(message):
         attack = user_check(base, message)
         bot.reply_to(message, 'LVL {} - {}/{} XP'.format(attack['lvl'], attack['exp'], 150 * int(attack['lvl'])))
     else:
+        if message.reply_to_message.from_user.username == 'DickDestroyerBot':
+            bot.reply_to(message, 'У меня нет матери')
+        return
         attack = user_check(base, message)
         defence = user_check(base, message.reply_to_message)
         lvl_difference = attack['lvl'] - defence['lvl']
