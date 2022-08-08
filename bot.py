@@ -12,7 +12,7 @@ base_chance = 75
 debug = 0
 cooldown = 3600
 
-percent_debuff_per_lvl = 3
+buff_per_lvl = 4
 exp_buff = 6
 # balanced:
 # percent_debuff_per_lvl = 4
@@ -20,7 +20,6 @@ exp_buff = 6
 
 chat_link = 'https://t.me/+HhG9tCb5RKk2NTcy'
 
-start_time = time.time()
 bot = telebot.TeleBot(token_.token)
 bot.set_my_commands([
     telebot.types.BotCommand('fuck', '(в ответ на сообщение) выебать мать'),
@@ -58,7 +57,7 @@ def user_check(base, message):
     return profile
 
 def success_chanse(lvl_difference, attack_fails):
-    bonus_chance = lvl_difference * percent_debuff_per_lvl
+    bonus_chance = lvl_difference * buff_per_lvl
     if bonus_chance > 100 - base_chance - 5:
         bonus_chance = 100 - base_chance - 5
     elif bonus_chance < 0 - (base_chance - 5):
@@ -190,8 +189,8 @@ def fuck(message):
             exp_gain = random.randint(5, 8) + random.randint(1, 3) * lvl_difference * -1
         else:
             lvl_dif = lvl_difference * 3
-            if lvl_dif > 17:
-                lvl_dif = 17
+            if lvl_dif > 12:
+                lvl_dif = 12
             exp_gain = random.randint(expgain[0] - 5, expgain[1] - 5) - lvl_dif
 
         attack['last_take'] = time.time()
@@ -232,28 +231,24 @@ def rating(message):
     bot.last_message_sent = msg.chat.id, msg.message_id
 
 def cd(message):
-    user_id = str(message.from_user.id)
     base = json.load(open('Files/data_file.json', 'r', encoding='utf8'))
-    try:
-        last_take = base[user_id]['last_take']
-        time_diff = time.time() - last_take
-        if time_diff < cooldown:
-            time_diff = cooldown - time_diff
-            if time_diff > 60:
-                time_diff = str(int(time_diff // 60)) + ' мин.'
-                bot.reply_to(message, 'Ещё чуть больше {}'.format(time_diff))
-            else:
-                time_diff = str(int(time_diff)) + ' сек.'
-                bot.reply_to(message, 'Ещё {}'.format(time_diff))
+    attack = user_check(base, message)
+    time_difference = time.time() - attack['last_take']
+    if time_difference < cooldown:
+        time_difference = cooldown - time_difference
+        if time_difference > 60:
+            time_difference = str(int(time_difference // 60)) + ' мин.'
+            bot.reply_to(message, 'Ещё чуть больше {}'.format(time_difference))
         else:
-            bot.reply_to(message, 'Уже можно!')
-    except:
-        bot.reply_to(message, 'Ты не в игре, выеби чью нибудь мать что бы вступить в наш клуб')
+            time_difference = str(int(time_difference)) + ' сек.'
+            bot.reply_to(message, 'Ещё {}'.format(time_difference))
+    else:
+        bot.reply_to(message, 'Уже можно!')
 
 
 mapp = {'/fuck@DickDestroyerBot': fuck, '/lvl@DickDestroyerBot': lvl, '/rating@DickDestroyerBot': rating, '/cd@DickDestroyerBot': cd}
 
-time.sleep(1)
+time.sleep(10)
 print('started')
 
 @bot.message_handler(content_types=['text'])
