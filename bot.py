@@ -164,7 +164,7 @@ def fuck(message):
 
     if random.randint(1, 100) < chance:
         # success
-        if lvl_difference < 0:
+        if lvl_difference <= 0:
             exp_gain = random.randint(expgain[0], expgain[1]) + lvl_difference * -1 * exp_buff
         else:
             lvl_difference = lvl_difference * 3
@@ -185,10 +185,10 @@ def fuck(message):
             bot.reply_to(message, 'Ты достиг уровня {}! \nСледующий уровень {}/{} XP'.format(attack['lvl'], attack['exp'], 150 * int(attack['lvl'])))
     else:
         # fail
-        if lvl_difference > 0:
-            exp_gain = random.randint(5, 8) + random.randint(1, 3) * lvl_difference * -1
+        if lvl_difference >= 0:
+            exp_gain = random.randint(5, 8) + random.randint(1, 2) * lvl_difference * -1
         else:
-            lvl_difference = lvl_difference * 3
+            lvl_difference = lvl_difference * -3
             if lvl_difference > 12:
                 lvl_difference = 12
             exp_gain = random.randint(expgain[0] - 5, expgain[1] - 5) - lvl_difference
