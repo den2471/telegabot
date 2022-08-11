@@ -200,7 +200,7 @@ def fuck(message):
         bot.send_animation(message.chat.id, open('Files/fail.gif', 'rb'))
         if defence['exp'] >= 150 * int(defence['lvl']):
             defence['lvl'] = defence['exp'] // 150 + 1
-            bot.send_message(message.chat.id, '{} ты достиг уровня {}! \nСледующий уровень {}/{} XP'.format(defence['name'] + '](tg://user?id=' + reply_id + ')', defence['lvl'], defence['exp'], 150 * int(defence['lvl'])), parse_mode='Markdown')
+            bot.send_message(message.chat.id, '{} ты достиг уровня {}! \nСледующий уровень {}/{} XP'.format('[' + defence['name'] + '](tg://user?id=' + reply_id + ')', defence['lvl'], defence['exp'], 150 * int(defence['lvl'])), parse_mode='Markdown')
 
     base[user_id] = attack
     base[reply_id] = defence
@@ -248,11 +248,9 @@ def cd(message):
     else:
         bot.reply_to(message, 'Уже можно!')
 
-
+print('started')
 mapp = {'/fuck@DickDestroyerBot': fuck, '/lvl@DickDestroyerBot': lvl, '/rating@DickDestroyerBot': rating, '/cd@DickDestroyerBot': cd}
 
-time.sleep(10)
-print('started')
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
@@ -264,5 +262,8 @@ def get_text_messages(message):
         else:
             mapp[text](message)
 
-
-bot.polling(none_stop=True, interval=0)
+while 1:
+    try:
+        bot.polling(none_stop=True, interval=0)
+    except:
+        pass
