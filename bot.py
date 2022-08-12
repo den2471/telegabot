@@ -67,7 +67,8 @@ def success_chanse(lvl_difference, attack_fails):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    base = json.load(open("Files/data_file.json", encoding='utf8'))
+    with open("Files/data_file.json", encoding='utf8') as json_base:
+        base = json.load(json_base)
     rating = []
     for i in base:
         rating.append([base[i]['lvl'], base[i]['exp'], base[i]['take_count'], base[i]['get_count'], base[i]['name']])
@@ -107,7 +108,8 @@ def callback_query(call):
     bot.send_message(bot.last_message_sent[0], rating_str, disable_notification=True)
 
 def fuck(message):
-    base = json.load(open('Files/data_file.json', 'r', encoding='utf8'))
+    with open("Files/data_file.json", encoding='utf8') as json_base:
+        base = json.load(json_base)
     user_id = str(message.from_user.id)
     try:
         reply_id = str(message.reply_to_message.from_user.id)
@@ -116,7 +118,8 @@ def fuck(message):
         return
 
     if user_id == reply_id:
-        bot.send_animation(message.chat.id, open('Files/realshit.gif', 'rb'), reply_to_message_id=message.id)
+        with open('Files/realshit.gif', 'rb') as realshit:
+            bot.send_animation(message.chat.id, realshit, reply_to_message_id=message.id)
         return
     elif message.reply_to_message.from_user.username == 'DickDestroyerBot':
         bot.reply_to(message, 'У меня нет матери')
@@ -156,7 +159,8 @@ def fuck(message):
         bot.reply_to(message, 'О нет! Его мать оказалась трапом и сама тебя выебала. Ну ничего, подлечишь очелло и снова в бой!')
         attack['last_take'] = time.time()
         copy('Files/data_file.json', 'Files/data_file_copy.json')
-        json.dump(base, open('Files/data_file.json', 'w', encoding='utf8'), ensure_ascii=False)
+        with open('Files/data_file.json', 'w', encoding='utf8') as json_base:
+            json.dump(base, json_base, ensure_ascii=False)
         return
 
     lvl_difference = attack['lvl'] - defence['lvl']
@@ -179,7 +183,8 @@ def fuck(message):
         attack['exp'] += exp_gain
         attack['fail_count'] = 0
         bot.reply_to(message, 'Ты успешно выебал мать {}\n+{} опыта\nLVL {} - {}/{} XP'.format('[' + defence['name'] + '](tg://user?id=' + reply_id + ')', exp_gain, attack['lvl'], attack['exp'], 150 * int(attack['lvl'])), parse_mode='Markdown')
-        bot.send_animation(message.chat.id, open('Files/success.gif', 'rb'))
+        with open('Files/success.gif', 'rb') as success:
+            bot.send_animation(message.chat.id, success)
         if attack['exp'] >= 150 * int(attack['lvl']):
             attack['lvl'] = attack['exp'] // 150 + 1
             bot.reply_to(message, 'Ты достиг уровня {}! \nСледующий уровень {}/{} XP'.format(attack['lvl'], attack['exp'], 150 * int(attack['lvl'])))
@@ -197,7 +202,8 @@ def fuck(message):
         attack['fail_count'] += 1
         defence['exp'] += exp_gain
         bot.reply_to(message, 'Тебе не удалось выебать мамашу {}. Теперь он получил {} опыта'.format('[' + defence['name'] + '](tg://user?id=' + reply_id + ')', exp_gain), parse_mode='Markdown')
-        bot.send_animation(message.chat.id, open('Files/fail.gif', 'rb'))
+        with open('Files/fail.gif', 'rb') as fail:
+            bot.send_animation(message.chat.id, fail)
         if defence['exp'] >= 150 * int(defence['lvl']):
             defence['lvl'] = defence['exp'] // 150 + 1
             bot.send_message(message.chat.id, '{} ты достиг уровня {}! \nСледующий уровень {}/{} XP'.format('[' + defence['name'] + '](tg://user?id=' + reply_id + ')', defence['lvl'], defence['exp'], 150 * int(defence['lvl'])), parse_mode='Markdown')
@@ -205,10 +211,12 @@ def fuck(message):
     base[user_id] = attack
     base[reply_id] = defence
     copy('Files/data_file.json', 'Files/data_file_copy.json')
-    json.dump(base, open('Files/data_file.json', 'w', encoding='utf8'), ensure_ascii=False)
+    with open('Files/data_file.json', 'w', encoding='utf8') as json_base:
+        json.dump(base, json_base, ensure_ascii=False)
 
 def lvl(message):
-    base = json.load(open('Files/data_file.json', 'r', encoding='utf8'))
+    with open("Files/data_file.json", encoding='utf8') as json_base:
+        base = json.load(json_base)
     if message.reply_to_message is None:
         attack = user_check(base, message)
         bot.reply_to(message, 'LVL {} - {}/{} XP'.format(attack['lvl'], attack['exp'], 150 * int(attack['lvl'])))
@@ -234,7 +242,8 @@ def rating(message):
     bot.last_message_sent = msg.chat.id, msg.message_id
 
 def cd(message):
-    base = json.load(open('Files/data_file.json', 'r', encoding='utf8'))
+    with open("Files/data_file.json", encoding='utf8') as json_base:
+        base = json.load(json_base)
     attack = user_check(base, message)
     time_difference = time.time() - attack['last_take']
     if time_difference < cooldown:
