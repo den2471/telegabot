@@ -166,6 +166,12 @@ def fuck(message):
     lvl_difference = attack['lvl'] - defence['lvl']
     chance = success_chanse(lvl_difference, attack['fail_count'])
 
+    time_bonus = lvl_difference * 360
+    if time_bonus > 3300:
+        time_bonus = 3300
+    elif time_bonus < 0:
+        time_bonus = 0
+
     if random.randint(1, 100) < chance:
         # success
         if lvl_difference <= 0:
@@ -176,7 +182,7 @@ def fuck(message):
                 lvl_difference = 17
             exp_gain = random.randint(expgain[0], expgain[1]) - lvl_difference
 
-        attack['last_take'] = time.time()
+        attack['last_take'] = time.time() - time_bonus
         defence['last_get'] = time.time()
         attack['take_count'] += 1
         defence['get_count'] += 1
@@ -198,7 +204,7 @@ def fuck(message):
                 lvl_difference = 12
             exp_gain = random.randint(expgain[0] - 5, expgain[1] - 5) - lvl_difference
 
-        attack['last_take'] = time.time()
+        attack['last_take'] = time.time() - time_bonus
         attack['fail_count'] += 1
         defence['exp'] += exp_gain
         bot.reply_to(message, 'Тебе не удалось выебать мамашу {}. Теперь он получил {} опыта'.format('[' + defence['name'] + '](tg://user?id=' + reply_id + ')', exp_gain), parse_mode='Markdown')
