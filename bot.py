@@ -18,7 +18,7 @@ exp_buff = 6
 # percent_debuff_per_lvl = 4
 # exp_buff = 3
 
-chat_link = 'https://t.me/+HhG9tCb5RKk2NTcy'
+chat_link = 'https://t.me/+QAk6W4pWMsk5MmNi'
 
 bot = telebot.TeleBot(token_.token)
 bot.set_my_commands([
@@ -166,7 +166,7 @@ def fuck(message):
     lvl_difference = attack['lvl'] - defence['lvl']
     chance = success_chanse(lvl_difference, attack['fail_count'])
 
-    time_bonus = lvl_difference * 360
+    time_bonus = lvl_difference * 480
     if time_bonus > 3300:
         time_bonus = 3300
     elif time_bonus < 0:
@@ -174,7 +174,7 @@ def fuck(message):
 
     if random.randint(1, 100) < chance:
         # success
-        if lvl_difference <= 0:
+        if lvl_difference < 0:
             exp_gain = random.randint(expgain[0], expgain[1]) + lvl_difference * -1 * exp_buff
         else:
             lvl_difference = lvl_difference * 3
@@ -196,8 +196,8 @@ def fuck(message):
             bot.reply_to(message, 'Ты достиг уровня {}! \nСледующий уровень {}/{} XP'.format(attack['lvl'], attack['exp'], 150 * int(attack['lvl'])))
     else:
         # fail
-        if lvl_difference >= 0:
-            exp_gain = random.randint(5, 8) + random.randint(1, 2) * lvl_difference * -1
+        if lvl_difference > 0:
+            exp_gain = random.randint(5, 8) + random.randint(2, 3) * lvl_difference
         else:
             lvl_difference = lvl_difference * -3
             if lvl_difference > 12:
