@@ -18,7 +18,7 @@ exp_buff = 6
 # percent_debuff_per_lvl = 4
 # exp_buff = 3
 
-chat_link = 'https://t.me/+QAk6W4pWMsk5MmNi'
+chat_link = 'http://бк.обэмэ.рф'
 
 bot = telebot.TeleBot(token_.token)
 bot.set_my_commands([
@@ -269,7 +269,6 @@ mapp = {'/fuck@DickDestroyerBot': fuck, '/lvl@DickDestroyerBot': lvl, '/rating@D
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
-
     text = message.text
     if text in mapp:
         if message.chat.id != -1001458417910:
